@@ -1,36 +1,106 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Migr Immo - Site Immobilier
 
-## Getting Started
+Un site web moderne pour une agence immobilière, construit avec Next.js 15, TypeScript, Tailwind CSS et shadcn/ui.
 
-First, run the development server:
+## 🏠 Fonctionnalités
 
+- **Page d'accueil moderne** avec section hero et recherche
+- **Galerie de biens** en vedette avec cartes interactives
+- **Section services** (achat, vente, location)
+- **Contact** avec informations de l'agence
+- **Design responsive** optimisé mobile/desktop
+- **Animations fluides** avec Framer Motion
+- **Icônes modernes** avec Lucide React
+
+## 🛠️ Technologies
+
+- **Next.js 15** (App Router)
+- **TypeScript** pour la sécurité des types
+- **Tailwind CSS** pour le styling
+- **shadcn/ui** pour les composants UI
+- **Framer Motion** pour les animations
+- **Lucide React** pour les icônes
+
+## 🚀 Installation et Démarrage
+
+1. **Cloner le projet** :
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone [url-du-repo]
+cd migr_immo
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. **Installer les dépendances** :
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. **Lancer le serveur de développement** :
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. **Ouvrir dans le navigateur** :
+```
+http://localhost:3000
+```
 
-## Learn More
+## 📁 Structure du Projet
 
-To learn more about Next.js, take a look at the following resources:
+```
+migr_immo/
+├── app/                    # Pages et layouts Next.js
+│   ├── globals.css        # Styles globaux et variables CSS
+│   ├── layout.tsx         # Layout principal
+│   └── page.tsx           # Page d'accueil
+├── components/            # Composants réutilisables
+│   └── ui/               # Composants shadcn/ui
+│       ├── button.tsx
+│       ├── card.tsx
+│       └── input.tsx
+├── lib/                  # Utilitaires
+│   └── utils.ts          # Fonctions utilitaires
+├── public/               # Assets statiques
+└── tailwind.config.ts    # Configuration Tailwind
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🎨 Design System
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Le projet utilise un design system cohérent avec :
+- **Couleurs** : Palette neutre avec accents primaires
+- **Typographie** : Inter (texte) + Space Grotesk (titres)
+- **Espacement** : Grille 8px
+- **Animations** : Transitions fluides 160-320ms
 
-## Deploy on Vercel
+## 📱 Responsive Design
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Le site est entièrement responsive avec :
+- **Mobile First** : Optimisé pour mobile
+- **Breakpoints** : sm, md, lg, xl
+- **Navigation adaptative** : Menu hamburger sur mobile
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🔧 Commandes Disponibles
+
+```bash
+npm run dev      # Serveur de développement
+npm run build    # Build de production
+npm run start    # Serveur de production
+npm run lint     # Vérification ESLint
+```
+
+## 🚀 Déploiement
+
+Le projet est prêt pour le déploiement sur :
+- **Vercel** (recommandé)
+- **Netlify**
+- **AWS Amplify**
+- **Tout hébergeur Node.js**
+
+## 📞 Contact
+
+Pour toute question sur le projet :
+- **Email** : contact@migrimmo.fr
+- **Téléphone** : 01 23 45 67 89
+
+---
+
+**Développé avec ❤️ pour Migr Immo**

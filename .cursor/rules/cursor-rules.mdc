@@ -1,0 +1,121 @@
+---
+alwaysApply: true
+project: migr_immo
+---
+
+# RÈGLES GÉNÉRALES (SITE **MIGR** – Services pros pour syndics)
+
+> Ces règles guident l’IA et les devs pour produire du **code prêt à coller**, cohérent et conforme aux exigences métier de Migr.  
+> ⚠️ **Pas de r3f/three.js** sur ce projet.
+
+## Ton & langue
+- Tous les **commentaires, JSDoc/TSDoc, README et textes d’UI** sont en **français** clair et professionnel (pas de jargon inutile).
+- **Noms de variables/fonctions en anglais** (camelCase/PascalCase).
+- Style de copie : précis, crédible, orienté bénéfices (secteur copropriété).
+- Éviter les superlatifs vagues ; préférer preuves, chiffres, garanties, processus.
+
+## Stack & versions
+- **Next.js (App Router) + TypeScript strict** (`"strict": true`)
+- **Tailwind CSS** (design tokens via CSS variables)
+- **shadcn/ui** pour les primitives (adaptées au style Migr)
+- **Framer Motion** pour micro-interactions **légères** (respect de `prefers-reduced-motion`)
+- **React Hook Form + Zod** pour les formulaires (validation client + serveur)
+- **Plausible** pour analytics (sans cookies)
+- **Vercel** pour déploiement
+- **ESLint**: `next/core-web-vitals`, `@typescript-eslint`, `eslint-plugin-react-hooks`
+- **Prettier** avec plugin Tailwind ; fin de ligne `lf`, largeur 100
+
+## Architecture
+- App Router :  
+  - Layout principal : `/app/(site)/layout.tsx`
+  - Pages : `/` (Accueil), `/services`, `/services/[slug]`, `/about`, `/legal`, `/contact`
+- Dossiers : `components/` (UI réutilisable), `features/` (sections métiers), `hooks/`, `lib/`, `styles/`, `content/` (MDX/JSON)
+- **Aucune logique lourde** dans les composants de présentation ; extraire hooks & helpers
+
+## Accessibilité (a11y)
+- Respect **strict** de `prefers-reduced-motion` (animations non essentielles désactivées)
+- Contraste **AA** minimum ; **focus visible** toujours (jamais `outline: none`)
+- Navigation clavier complète ; landmarks (`header/main/nav/footer`), aria-labels pertinents
+- Formulaires : `<label>` explicites, erreurs via `aria-live="polite"`
+- Icônes décoratives : `aria-hidden="true"` ; autrement, fournir texte
+
+## Performance (Lighthouse : Perf 90+, A11y 95+, Best 95+, SEO 95+)
+- **LCP < 1.8s** mobile & desktop
+- Héro **statique** (pas de canvas 3D). Images `next/image`, tailles explicites, `priority` pour le visuel clé
+- Code splitting par route ; éviter libs lourdes
+- Polices via `next/font` (subset latin, display swap)
+- Vidéos rares, **pas d’autoplay** ; WebM d’abord, MP4 fallback ; lazy via IntersectionObserver
+- Éviter re-renders sur scroll ; `React.memo`, `useMemo`, `useCallback` avec discernement
+
+## Sécurité & conformité
+- **Aucune clé secrète** côté client (env uniquement côté serveur/Vercel)
+- Validation **Zod** côté serveur (anti–payload toxiques)
+- **Rate limiting** sur route d’API contact (ex. 5 req / 10 min / IP)
+- **RGPD** : Plausible → pas de bannière cookie par défaut ; mentions légales & politique de confidentialité obligatoires
+- Captcha léger (hCaptcha/Cloudflare Turnstile) **optionnel** si spam
+
+## Design system (tokens)
+- Palette sobre pro :  
+  - `--bg: #0F1115; --bg-alt:#151824; --ink:#F5F7FA; --muted:#98A2B3; --accent:#5EE1A9; --line:#222738;`
+- Police titres : **Space Grotesk** ; texte : **Inter** ; code/labels : **JetBrains Mono**
+- Rayons 10/14, grille 8px, ombres **douces** uniquement sur éléments interactifs
+- UI **sobre**, peu de bruit visuel ; états hover/focus nets
+
+## Animations
+- Durées 160–280 ms, courbes `easeOut` / `spring` légères
+- **Micro-interactions** : boutons, toasts, accordéons, tabs
+- Désactiver tout le non essentiel si `prefers-reduced-motion`
+- **Interdits** : parallax excessif, effets flashy, scroll-jacking
+
+## Formulaires & conversion
+- Pages/sections à conversion : **Contact** (devis), **CTA sticky** mobile (tel/mail)
+- Champs minimum : Nom/Prénom, Société, Email, Téléphone (optionnel), Message, Consentement RGPD
+- **Validation UX** immédiate, messages d’erreur clairs, focus au premier champ erroné
+- Envoi : POST vers route d’API Next ; log serveur (sans données sensibles) + email (provider côté serveur)
+- Tracking Plausible : event `Lead Submitted`, props `{ service?: string, origin?: string }`
+
+## SEO & contenu
+- **`generateMetadata`** par page, OG images, favicons
+- **Schema.org** : `Organization`, `ProfessionalService`, `Service` (par page service), `BreadcrumbList`
+- Sitemap & robots auto (Next)
+- URLs propres : `/services/migration-logiciel`, `/services/onboarding-copro`, etc.
+- Copywriting : **titres orientés résultats**, bénéfices → preuves → étapes → CTA
+- Secteur ciblé : syndics / copropriétés en France ; éviter jargon logiciel non cité
+
+## Pages clés (structure)
+- **Accueil (`/`)**
+  - Hero : promesse + preuve (10+ ans, grands groupes + indépendants) + CTA
+  - Preuves : logos (si autorisés) — marquer `placeholder` sinon ; stats réalistes
+  - Services (6 cartes) → pages détaillées
+  - Processus en 3–4 étapes
+  - CTA final + coordonnées
+- **Services (`/services` & `/services/[slug]`)**
+  - 6 services : Migration Express, Onboarding copro, Comptabilité sur mesure, Remplacement comptable, Externalisation complète, Audit & Fonds de garantie
+  - Par service : problème → solution Migr → livrables → délais indicatifs → compliance → CTA
+- **About (`/about`)** : positionnement, méthodo, logiciels maîtrisés, couverture nationale
+- **Contact (`/contact`)** : formulaire + coordonnées, créneaux de rappel, mentions
+- **Legal (`/legal`)** : Mentions légales, Politique de confidentialité, CGU (si besoin)
+
+## Composants (shadcn/ui + Tailwind)
+- **Button**, **Badge**, **Card**, **Accordion**, **Tabs**, **Toast** (`aria-live="polite"`), **Form** (React Hook Form), **Input/Textarea/Select**, **Dialog**, **Tooltip** (parcimonieux)
+- **SectionHeader**, **ServiceCard**, **Steps**, **Stats**, **LogoCloud**, **ContactForm**
+- Documenter via **JSDoc** (props claires, exemples)
+
+## Contenu & données
+- Textes services dans `content/services/*.mdx|json` (clés : `title`, `slug`, `excerpt`, `bullets`, `deliverables`)
+- Pas d’images réelles si non fournies : `next/image` avec placeholders **fictifs** et props configurables
+
+## Tests & qualité
+- CI : `lint` + `typecheck` + rapport Lighthouse (pages : `/`, `/services`, `/contact`)
+- **CLS = 0** sur les pages principales ; toujours préciser `width/height` des images
+- Audit a11y (axe DevTools) avant merge
+
+## Ce que l’IA doit respecter
+- Produire **code prêt à coller**, minimal mais robuste
+- **Commentaires en français** au-dessus des blocs importants (expliquer **le pourquoi**)
+- **Imports exacts**, pas de placeholders « TODO » sans solution proposée
+- **Ne jamais utiliser r3f/three.js**
+- Pour visuels complexes, préférer **SVG statique** ou images exportées
+- **Aucun contenu marketing inventé** (logos/avis) sans drapeau `placeholder`
+
+---
