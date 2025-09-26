@@ -105,7 +105,7 @@ export default function RemplacementEquipePage() {
                   Demander un devis
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
-                <Button variant="outline" size="lg" asChild>
+                <Button variant="secondary" size="lg" asChild>
                   <a href="/contact">Nous contacter</a>
                 </Button>
               </div>
@@ -266,7 +266,7 @@ export default function RemplacementEquipePage() {
               Demander un devis gratuit
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
-            <Button size="lg" variant="outline" className="text-primary-foreground border-primary-foreground hover:bg-primary-foreground hover:text-primary" asChild>
+            <Button size="lg" variant="secondary" className="text-primary-foreground border-primary-foreground hover:bg-primary-foreground hover:text-primary" asChild>
               <a href="/contact">Nous contacter</a>
             </Button>
           </div>

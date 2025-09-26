@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/Button";
 import { 
@@ -13,9 +14,8 @@ import {
   Database,
   FileCheck,
   Users,
-  Zap,
-  Award,
-  Lock
+  Award
+
 } from "lucide-react";
 import { motion } from "framer-motion";
 import Navbar from "@/components/navbar";
@@ -148,9 +148,11 @@ export default function MigrationExpressPage() {
               className="relative mb-6"
             >
               <div className="relative overflow-hidden rounded-3xl border-2 border-accentGreen/20 shadow-2xl">
-                <img 
+                <Image 
                   src="/dashboard.png" 
                   alt="Interface de migration de données comptables - Migration Express Migr"
+                  width={800}
+                  height={600}
                   className="w-full h-auto object-cover"
                 />
                 {/* Overlay avec métriques */}

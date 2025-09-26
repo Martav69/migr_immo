@@ -282,7 +282,7 @@ export default function QuoteModal({ isOpen, onClose, serviceName }: QuoteModalP
               </Button>
               <Button 
                 type="button" 
-                variant="outline" 
+                variant="secondary" 
                 onClick={onClose} 
                 className="flex-1 h-12 sm:h-12 py-4 sm:py-3 border-2 border-gray-300 hover:border-gray-400"
               >

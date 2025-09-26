@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/input";
 import { 
@@ -9,7 +9,6 @@ import {
   Mail, 
   MapPin, 
   Clock, 
-  Send,
   ArrowRight,
   Shield
 } from "lucide-react";
@@ -133,10 +132,12 @@ export default function ContactPage() {
                <div className="relative p-8 lg:p-10 overflow-hidden">
                  {/* Image de fond */}
                  <div className="absolute inset-0">
-                   <img 
+                   <Image 
                      src="/contact-test.png" 
                      alt="Équipe professionnelle Migr"
-                     className="w-full h-full object-cover"
+                     fill
+                     className="object-cover"
+                     priority
                    />
                  </div>
                  

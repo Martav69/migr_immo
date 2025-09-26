@@ -1,12 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
-import { ShimmerButton } from "@/components/effects/ShimmerButton";
 import { NumberTicker } from "@/components/effects/NumberTicker";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Building2, Users, Calculator, RefreshCw, Shield, FileCheck, ArrowRight, CheckCircle, Quote, BarChart3, Award, Lock, Clock, Star, TrendingUp } from "lucide-react";
+import { Card, CardContent, CardHeader} from "@/components/ui/card";
+import { Building2, Users, Calculator, RefreshCw, Shield, FileCheck, ArrowRight, Quote, Award, Lock, Star, TrendingUp } from "lucide-react";
 import { motion } from "framer-motion";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
@@ -30,7 +30,7 @@ const smoothScrollToSection = (sectionId: string) => {
 
 // Composant pour les éléments de confiance discrets
 const TrustElement: React.FC<{
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   text: string;
   delay?: number;
 }> = ({ icon: Icon, text, delay = 0 }) => {
@@ -143,11 +143,13 @@ export default function Home() {
             {/* Visuel — image hero */}
             <div className="relative">
               <div className="relative overflow-hidden rounded-2xl border shadow-sm">
-                <img 
+                <Image 
                   src="/hero_section.png" 
                   alt="Équipe professionnelle discutant autour d'une table avec des documents de gestion immobilière"
+                  width={800}
+                  height={600}
                   className="w-full h-auto object-cover"
-                  
+                  priority
                 />
                 {/* Plaque métriques superposée */}
                 <div className="pointer-events-none absolute bottom-4 right-4 grid gap-2 rounded-xl border bg-background/80 p-4 backdrop-blur">
@@ -419,9 +421,11 @@ export default function Home() {
               </div>
               <div className="relative">
                 <div className="w-full h-auto rounded-xl border shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
-                  <img 
+                  <Image 
                     src="/dashboard.png" 
                     alt="Dashboard Migr - Interface de gestion comptable pour copropriétés"
+                    width={800}
+                    height={600}
                     className="w-full h-auto object-cover"
                   />
                 </div>

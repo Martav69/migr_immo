@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/Button";
 import { 
@@ -12,10 +13,8 @@ import {
   ArrowRight,
   FileText,
   Database,
-  Zap,
   Shield,
-  Award,
-  Lock
+  Award
 } from "lucide-react";
 import { motion } from "framer-motion";
 import Navbar from "@/components/navbar";
@@ -148,9 +147,11 @@ export default function IntegrationBiensPage() {
               className="relative mb-6"
             >
               <div className="relative overflow-hidden rounded-3xl border-2 border-accentGreen/20 shadow-2xl">
-                <img 
+                <Image 
                   src="/hero_section.png" 
                   alt="Équipe professionnelle gérant l'intégration de nouvelles copropriétés - Intégration de Biens Migr"
+                  width={800}
+                  height={600}
                   className="w-full h-auto object-cover"
                 />
                 {/* Overlay avec métriques */}

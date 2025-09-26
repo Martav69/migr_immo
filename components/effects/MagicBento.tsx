@@ -22,7 +22,7 @@ export interface BentoCardProps {
   description?: string;
   label?: string;
   slug?: string;
-  icon?: React.ComponentType<any>;
+  icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   accentColor?: string;
   badge?: string;
   textAutoHide?: boolean;
@@ -50,7 +50,7 @@ const MOBILE_BREAKPOINT = 768;
 
 // Composant pour l'icône avec effet de glow uniquement
 const AnimatedIcon: React.FC<{
-  Icon: React.ComponentType<any>;
+  Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   color: string;
   size?: number;
   className?: string;
@@ -78,7 +78,7 @@ const AnimatedIcon: React.FC<{
 
   return (
     <div ref={iconRef} className={`${className}`}>
-      <Icon size={size} color={color} />
+      <Icon width={size} height={size} fill={color} />
     </div>
   );
 };

@@ -17,10 +17,10 @@ interface Service {
 }
 
 export function ServiceBento() {
-  const services: Service[] = servicesData.services;
+  const services: Service[] = servicesData.services as Service[];
 
   // Configuration du grid responsive
-  const getGridClasses = (size: string) => {
+  const getGridClasses = (size: "small" | "medium" | "large") => {
     switch (size) {
       case "large":
         return "col-span-6 row-span-4 lg:col-span-3 lg:row-span-2";
@@ -33,7 +33,7 @@ export function ServiceBento() {
   };
 
   // Styles de contenu adaptatifs
-  const getContentClasses = (size: string) => {
+  const getContentClasses = (size: "small" | "medium" | "large") => {
     switch (size) {
       case "large":
         return {

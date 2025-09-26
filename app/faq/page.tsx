@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ChevronDown, HelpCircle, ArrowRight, Sparkles, MessageCircle, Clock, Shield, Users } from "lucide-react";
+import { ChevronDown, ArrowRight, Sparkles, MessageCircle, Clock, Shield, Users } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
@@ -94,7 +94,7 @@ export default function FAQPage() {
               className="inline-flex items-center px-6 py-3 rounded-full bg-background/80 text-accentGreen text-sm font-medium mb-6 border border-accentGreen/30 backdrop-blur-sm shadow-lg"
             >
               <Sparkles className="w-5 h-5 mr-2" />
-              Centre d'aide
+              {"Centre d'aide"}
             </motion.div>
             
             <motion.h1 
@@ -237,7 +237,7 @@ export default function FAQPage() {
           >
             <div className="inline-flex items-center px-6 py-3 rounded-full bg-background/80 text-accentGold text-sm font-medium mb-6 border border-accentGold/30 backdrop-blur-sm shadow-lg">
               <Users className="w-5 h-5 mr-2" />
-              Besoin d'aide personnalisée ?
+              {"Besoin d'aide personnalisée ?"}
             </div>
             
             <h2 className="font-heading text-4xl md:text-5xl font-bold text-foreground mb-6">
@@ -268,7 +268,7 @@ export default function FAQPage() {
               </Button>
               
               <Button 
-                variant="outline"
+                variant="secondary"
                 asChild
                 className="h-14 px-8 group relative overflow-hidden border-2 border-accentGreen/30 hover:border-accentGreen/50 bg-background/80 hover:bg-accentGreen/5 transition-all duration-300 text-lg"
               >
