@@ -29,6 +29,10 @@ export default function QuoteModal({ isOpen, onClose, serviceName }: QuoteModalP
     needs: ""
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
+
   // Empêcher le scroll de la page de fond quand le modal est ouvert
   useEffect(() => {
     if (isOpen) {
@@ -43,12 +47,53 @@ export default function QuoteModal({ isOpen, onClose, serviceName }: QuoteModalP
     };
   }, [isOpen]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Ici vous pouvez ajouter la logique d'envoi du formulaire
-    console.log("Devis demandé:", formData);
-    alert("Votre demande de devis a été envoyée. Nous vous recontacterons rapidement.");
-    onClose();
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+    setErrorMessage('');
+
+    try {
+      const response = await fetch('/api/quote', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        // Reset form
+        setFormData({
+          agencyName: "",
+          address: "",
+          postalCode: "",
+          city: "",
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          software: "",
+          needs: ""
+        });
+        // Fermer le modal après 2 secondes
+        setTimeout(() => {
+          onClose();
+        }, 2000);
+      } else {
+        setSubmitStatus('error');
+        setErrorMessage(result.error || 'Une erreur est survenue');
+      }
+    } catch (error) {
+      console.error('Erreur lors de l\'envoi:', error);
+      setSubmitStatus('error');
+      setErrorMessage('Erreur de connexion. Veuillez réessayer.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -272,19 +317,53 @@ export default function QuoteModal({ isOpen, onClose, serviceName }: QuoteModalP
               </div>
             </div>
 
+            {/* Messages de statut */}
+            {submitStatus === 'success' && (
+              <div className="p-4 bg-green-50 border border-green-200 rounded-xl text-green-800">
+                <div className="flex items-center gap-2">
+                  <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
+                    <span className="text-white text-sm">✓</span>
+                  </div>
+                  <span className="font-medium">Demande envoyée avec succès !</span>
+                </div>
+                <p className="mt-2 text-sm">Nous vous recontacterons rapidement. Le modal se fermera automatiquement...</p>
+              </div>
+            )}
+
+            {submitStatus === 'error' && (
+              <div className="p-4 bg-red-50 border border-red-200 rounded-xl text-red-800">
+                <div className="flex items-center gap-2">
+                  <div className="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
+                    <span className="text-white text-sm">✗</span>
+                  </div>
+                  <span className="font-medium">Erreur lors de l'envoi</span>
+                </div>
+                <p className="mt-2 text-sm">{errorMessage}</p>
+              </div>
+            )}
+
             {/* Boutons */}
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
               <Button 
                 type="submit" 
-                className="flex-1 h-12 sm:h-12 py-4 sm:py-3 bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-400 hover:to-amber-400 text-white font-semibold shadow-lg hover:shadow-xl hover:shadow-yellow-500/25 transition-all duration-300 border-0"
+                disabled={isSubmitting}
+                className="flex-1 h-12 sm:h-12 py-4 sm:py-3 bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-400 hover:to-amber-400 text-white font-semibold shadow-lg hover:shadow-xl hover:shadow-yellow-500/25 transition-all duration-300 border-0 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Envoyer ma demande
+                {isSubmitting ? (
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    Envoi en cours...
+                  </div>
+                ) : (
+                  'Envoyer ma demande'
+                )}
               </Button>
               <Button 
                 type="button" 
                 variant="secondary" 
                 onClick={onClose} 
-                className="flex-1 h-12 sm:h-12 py-4 sm:py-3 border-2 border-gray-300 hover:border-gray-400"
+                disabled={isSubmitting}
+                className="flex-1 h-12 sm:h-12 py-4 sm:py-3 border-2 border-gray-300 hover:border-gray-400 disabled:opacity-50"
               >
                 Annuler
               </Button>

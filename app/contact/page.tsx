@@ -25,20 +25,48 @@ export default function ContactPage() {
     message: ""
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Ici vous pouvez ajouter la logique d'envoi du formulaire
-    console.log("Message envoyé:", formData);
-    alert("Votre message a été envoyé. Nous vous recontacterons rapidement.");
-    
-    // Reset form
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      subject: "",
-      message: ""
-    });
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+    setErrorMessage('');
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        // Reset form
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          subject: "",
+          message: ""
+        });
+      } else {
+        setSubmitStatus('error');
+        setErrorMessage(result.error || 'Une erreur est survenue');
+      }
+    } catch (error) {
+      console.error('Erreur lors de l\'envoi:', error);
+      setSubmitStatus('error');
+      setErrorMessage('Erreur de connexion. Veuillez réessayer.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -274,13 +302,48 @@ export default function ContactPage() {
                        />
                      </div>
 
+                     {/* Messages de statut */}
+                     {submitStatus === 'success' && (
+                       <div className="p-4 bg-green-50 border border-green-200 rounded-xl text-green-800">
+                         <div className="flex items-center gap-2">
+                           <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
+                             <span className="text-white text-sm">✓</span>
+                           </div>
+                           <span className="font-medium">Message envoyé avec succès !</span>
+                         </div>
+                         <p className="mt-2 text-sm">Nous vous recontacterons rapidement.</p>
+                       </div>
+                     )}
+
+                     {submitStatus === 'error' && (
+                       <div className="p-4 bg-red-50 border border-red-200 rounded-xl text-red-800">
+                         <div className="flex items-center gap-2">
+                           <div className="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
+                             <span className="text-white text-sm">✗</span>
+                           </div>
+                           <span className="font-medium">Erreur lors de l'envoi</span>
+                         </div>
+                         <p className="mt-2 text-sm">{errorMessage}</p>
+                       </div>
+                     )}
+
                      <Button 
                        type="submit" 
-                       className="w-full h-16 bg-gradient-to-r from-accentGreen to-accentGold hover:from-accentGreen/90 hover:to-accentGold/90 text-white font-bold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl group text-lg"
+                       disabled={isSubmitting}
+                       className="w-full h-16 bg-gradient-to-r from-accentGreen to-accentGold hover:from-accentGreen/90 hover:to-accentGold/90 text-white font-bold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl group text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                      >
                        <span className="flex items-center justify-center gap-3">
-                         Envoyer ma demande
-                         <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
+                         {isSubmitting ? (
+                           <>
+                             <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                             Envoi en cours...
+                           </>
+                         ) : (
+                           <>
+                             Envoyer ma demande
+                             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
+                           </>
+                         )}
                        </span>
                      </Button>
 
