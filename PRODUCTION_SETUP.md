@@ -30,7 +30,7 @@ Créez un fichier `.env.local` à la racine du projet :
 
 ```bash
 # Clé API Resend (remplacez par votre vraie clé)
-RESEND_API_KEY=re_DAkb2m3A_GC1N3nbwQC5C1B9fZruyoEnR
+RESEND_API_KEY=re_fezfh_fezhfze_çfefezfzefz
 ```
 
 ### 2. Configuration Vercel (Recommandé)
